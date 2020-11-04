@@ -1,4 +1,4 @@
-var mymap = L.map('mapid').setView([48.151965, 17.072995], 17);
+var mymap = L.map('mapid').setView([48.152525, 17.073150], 17);
 
 L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}', {
     attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
@@ -118,23 +118,127 @@ L.geoJSON(geojson, {
     }
 }).addTo(mymap);
 
-// var myStyle = {
-//     fillColor: "#a83232",
-//     fillOpacity: 0.8
-// };
 
-// L.geoJSON(bloky, {
-//     style: myStyle
-// }).addTo(mymap);
+var busIcon = new L.icon({
+    iconUrl: 'https://cdn3.iconfinder.com/data/icons/maps-and-pins-4/512/map_pin_destination_location_adress_bus_stop-512.png',
+    iconSize: [50, 50],
+    iconAnchor: [25, 50],
+    popupAnchor: [0, -50]
+});
 
-// function onEachFeature(feature, layer) {
+var tramIcon = new L.icon({
+    iconUrl: 'https://cdn.onlinewebfonts.com/svg/img_465557.png',
+    iconSize: [35, 50],
+    iconAnchor: [25, 50],
+    popupAnchor: [0, -50]
+});
 
-//     // does this feature have a property named popupContent?
-//     if (feature.properties && feature.properties.popupContent) {
-//         layer.bindPopup(feature.properties.popupContent);
-//     }
-// }
+var vehicleMarker = [{
+    "type": "Feature",
+    "properties": {
+        "id" : "bus",
+        "popupContent": "<b>Botanická záhrada: </b> 29, 32, N29, N33, N34"
+    },
+    "geometry": {
+        "type": "Point",
+        "coordinates": [17.072034, 48.148310]
+    }
+}, {
+    "type": "Feature",
+    "properties": {
+        "id" : "bus",
+        "popupContent": "<b>Botanická záhrada: </b> 29, 32, N29, N33, N34"
+    },
+    "geometry": {
+        "type": "Point",
+        "coordinates": [17.072305, 48.147926]
+    }
+}, {
+    "type": "Feature",
+    "properties": {
+        "id" : "bus",
+        "popupContent": "<b>Zoo: </b> 31, 39, N31"
+    },
+    "geometry": {
+        "type": "Point",
+        "coordinates": [17.07456, 48.15459]
+    }
+}, {
+    "type": "Feature",
+    "properties": {
+        "id" : "bus",
+        "popupContent": "<b>Zoo: </b> 31, 39, N31"
+    },
+    "geometry": {
+        "type": "Point",
+        "coordinates": [17.07512, 48.15412]
+    }
+}, {
+    "type": "Feature",
+    "properties": {
+        "id" : "bus",
+        "popupContent": "<b>Zoo: </b> 30, 32, 37, 92, 192 N29"
+    },
+    "geometry": {
+        "type": "Point",
+        "coordinates": [17.07578, 48.15465]
+    }
+}, {
+    "type": "Feature",
+    "properties": {
+        "id" : "bus",
+        "popupContent": "<b>Zoo: </b> 30, 32, 37, 92, 192 N29"
+    },
+    "geometry": {
+        "type": "Point",
+        "coordinates": [17.07692, 48.15405]
+    }
+}, {
+    "type": "Feature",
+    "properties": {
+        "id" : "tram",
+        "popupContent": "<b>Botanická záhrada: </b> 4, 9"
+    },
+    "geometry": {
+        "type": "Point",
+        "coordinates": [17.07178, 48.14813]
+    }
+}, {
+    "type": "Feature",
+    "properties": {
+        "id" : "tram",
+        "popupContent": "<b>Botanická záhrada: </b> 4, 9"
+    },
+    "geometry": {
+        "type": "Point",
+        "coordinates": [17.07247, 48.14813]
+    }
+}];
 
-// L.geoJSON(bloky, {
-//     onEachFeature: onEachFeature
-// }, {style: myStyle}).addTo(mymap);
+L.geoJSON(vehicleMarker, {
+    pointToLayer: function(geoJsonPoint, latlng) {
+        if(geoJsonPoint.properties.id == "bus") {
+            return L.marker(latlng, {
+                icon: busIcon
+            }); 
+        }
+        else if(geoJsonPoint.properties.id == "tram") {
+            return L.marker(latlng, {
+                icon: tramIcon
+            }); 
+        }
+        else {
+            console.log("Marker icon no defined for this vehicle!");
+        }
+
+    },
+    onEachFeature : function(feature, layer) {
+        // does this feature have a property named popupContent?
+        if (feature.properties && feature.properties.popupContent) {
+            layer.bindPopup(feature.properties.popupContent);
+        }
+    }
+}).addTo(mymap);
+
+
+
